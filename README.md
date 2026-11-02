@@ -87,6 +87,36 @@ Most creators are at L1. This repo is L5.
    ```
    Format: `subject | guess | actual | correction`. Leave actual and correction blank when you post, fill them in when the numbers land. A row with no guess is a log, not a lesson.
 
+## Steal an edit
+
+The loop decides what to film. This part helps you edit it like the creators you
+already admire.
+
+Every reel I liked, I sent to myself in an Instagram DM, then never opened again.
+So I built a pipeline that turns that pile into an edit library:
+
+- `scripts/ig-refs.py` reads your Instagram data export, finds the thread with
+  only you in it, and keeps the reel links and whose video each is. Never the
+  text you typed to yourself.
+- `scripts/teardown.py` downloads each reel, finds every cut (PySceneDetect),
+  reads the first spoken words (faster-whisper), measures loudness, and saves two
+  3x3 frame grids: one frame per shot, and nine frames spread across the video
+  for captions and on-screen text.
+- The numbers land in `vault/Edit-References.md`, where a group of reels that
+  share a cut becomes a named style.
+
+What one reel turned into: 66 seconds, 21 shots, a cut about every 3 seconds,
+thin white captions 5 words long, and a picture in the empty half of the frame at
+almost every cut. That is a template I can put on my next video, instead of
+"edit it like that one."
+
+Same build works for a team that saves competitor ads "for inspiration" and never
+uses them: swap the reels for the ads.
+
+Needs Python, ffmpeg, `pip install yt-dlp scenedetect opencv-python-headless`,
+and optionally `faster-whisper`. Instagram downloads need a cookies file from a
+signed-in browser (`--cookies`).
+
 ## Folder map
 
 ```
@@ -102,6 +132,9 @@ vault/Life/                       your life, written down. The supply line
 scripts/log.mjs                   one-line ledger logging
 scripts/status.mjs                approve, reject, mark done
 scripts/weekly.sh / weekly.cmd    scheduled weekly run
+scripts/ig-refs.py                 reels you DM'd yourself -> link list -> edit library
+scripts/teardown.py                measure any video's cuts, hook and captions
+vault/Edit-References.md           the measured edit library
 ```
 
 ## Two ways it learns
